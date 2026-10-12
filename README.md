@@ -141,6 +141,37 @@ View backend logs:
 docker compose logs -f backend
 ```
 
+### Backend tests
+
+Backend tests use a dedicated PostgreSQL database (`ticketflow_test`)
+to keep test data separate from development data.
+
+Create the test database once after starting the Docker containers:
+
+```bash
+docker compose exec db psql -U ticketflow -d ticketflow -c "CREATE DATABASE ticketflow_test;"
+```
+
+Run the migrations for the test database:
+
+```bash
+docker compose exec \
+  -e APP_ENV=testing \
+  -e DB_CONNECTION=pgsql \
+  -e DB_DATABASE=ticketflow_test \
+  backend php artisan migrate --force
+```
+
+Run all backend tests:
+
+```bash
+docker compose exec backend php artisan test
+```
+
+The PHPUnit configuration in `backend/phpunit.xml` uses
+`ticketflow_test` as the test database.
+Never run tests against the development database.
+
 ## Planned MVP
 
 - Authentication
