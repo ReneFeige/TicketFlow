@@ -42,9 +42,17 @@ Create the Laravel environment file:
 cp backend/.env.example backend/.env
 ```
 
-Set the same PostgreSQL credentials in both files.
+Both environment files must use the same PostgreSQL database name, username, and password.
 
-In `backend/.env`, configure:
+In the root `.env` file, configure the Docker Compose database credentials:
+
+```dotenv
+DB_DATABASE=ticketflow
+DB_USERNAME=ticketflow
+DB_PASSWORD=your_local_password
+```
+
+In `backend/.env`, configure the Laravel database connection:
 
 ```dotenv
 DB_CONNECTION=pgsql
@@ -54,6 +62,10 @@ DB_DATABASE=ticketflow
 DB_USERNAME=ticketflow
 DB_PASSWORD=your_local_password
 ```
+
+The hostname `db` refers to the PostgreSQL service defined in `compose.yaml`. Docker Compose allows containers to communicate using their service names.
+
+**Note:** The `.env` files contain local configuration and credentials and are excluded from Git. Do not commit real passwords or other secrets.
 
 ### 3. Start the database
 
@@ -76,8 +88,12 @@ docker compose run --rm backend php artisan key:generate
 ### 5. Install frontend dependencies
 
 ```bash
-docker compose run --rm frontend npm install
+docker compose run --rm \
+  -e npm_config_cache=/tmp/.npm \
+  frontend npm ci
 ```
+
+`npm ci` installs the exact dependency versions defined in package-lock.json, ensuring a reproducible frontend setup.
 
 ### 6. Start the application
 
@@ -99,7 +115,11 @@ docker compose exec backend php artisan migrate
 | Laravel backend | http://localhost:8000 |
 | API health endpoint | http://localhost:8000/api/health |
 
-The frontend uses a Vite development proxy to forward `/api` requests to Laravel.
+The application uses ports `5173` (React/Vite) and `8000` (Laravel). Both ports must be available on your local machine.
+
+The development servers are bound to `127.0.0.1` on the host, so they are accessible locally rather than being exposed to the network.
+
+The frontend uses a Vite development proxy to forward `/api` requests to Laravel through Docker's internal network.
 
 ## Development
 
@@ -136,6 +156,6 @@ docker compose logs -f backend
 
 Future improvements may include file attachments, notifications, a knowledge base, and AI-assisted ticket processing.
 
-## License
+## Project Purpose
 
 This project is currently developed for portfolio and learning purposes.
