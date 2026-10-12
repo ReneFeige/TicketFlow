@@ -4,9 +4,9 @@ namespace Tests\Feature;
 
 use Illuminate\Database\QueryException;
 use Illuminate\Support\Facades\DB;
+use PHPUnit\Framework\Attributes\DataProvider;
 use RuntimeException;
 use Tests\TestCase;
-use PHPUnit\Framework\Attributes\DataProvider;
 
 class TicketConstraintsTest extends TestCase
 {
@@ -14,8 +14,7 @@ class TicketConstraintsTest extends TestCase
     public function test_invalid_ticket_values_are_rejected(
         string $column,
         string $invalidValue
-    ): void
-    {
+    ): void {
         if (
             ! app()->environment('testing') ||
             DB::connection()->getDatabaseName() !== 'ticketflow_test'

@@ -2,8 +2,7 @@
 
 namespace Tests\Feature;
 
-use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Foundation\Testing\WithFaker;
+use Illuminate\Support\Facades\DB;
 use Tests\TestCase;
 
 class DatabaseConnectionTest extends TestCase
@@ -25,7 +24,7 @@ class DatabaseConnectionTest extends TestCase
 
         $this->assertSame(
             'ticketflow_test',
-            \Illuminate\Support\Facades\DB::connection()->getDatabaseName()
+            DB::connection()->getDatabaseName()
         );
     }
 }
