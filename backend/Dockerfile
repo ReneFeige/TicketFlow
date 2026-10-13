@@ -15,6 +15,10 @@ RUN apt-get update \
         bcmath \
     && rm -rf /var/lib/apt/lists/*
 
+# Install Xdebug for local debugging
+RUN pecl install xdebug \
+    && docker-php-ext-enable xdebug
+
 # Copy Composer from its official image
 COPY --from=composer:2 /usr/bin/composer /usr/bin/composer
 
