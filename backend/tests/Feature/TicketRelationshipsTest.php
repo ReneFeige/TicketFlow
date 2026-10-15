@@ -7,93 +7,79 @@ use App\Models\Comment;
 use App\Models\Ticket;
 use App\Models\User;
 use Illuminate\Support\Facades\DB;
-use RuntimeException;
 use Tests\TestCase;
 
 class TicketRelationshipsTest extends TestCase
 {
     public function test_ticket_category_and_customer_relationships(): void
     {
-        if (
-            ! app()->environment('testing') ||
-            DB::connection()->getDatabaseName() !== 'ticketflow_test'
-        ) {
-            throw new RuntimeException('Unsafe test database configuration.');
-        }
+        $userId = DB::table('users')->insertGetId([
+            'name' => 'Test Customer',
+            'email' => 'customer@example.test',
+            'password' => 'test-password',
+            'role' => 'customer',
+            'created_at' => now(),
+            'updated_at' => now(),
+        ]);
 
-        DB::beginTransaction();
+        $categoryId = DB::table('categories')->insertGetId([
+            'name' => 'Technical Issue',
+            'created_at' => now(),
+            'updated_at' => now(),
+        ]);
 
-        try {
-            $userId = DB::table('users')->insertGetId([
-                'name' => 'Test Customer',
-                'email' => 'customer@example.test',
-                'password' => 'test-password',
-                'role' => 'customer',
-                'created_at' => now(),
-                'updated_at' => now(),
-            ]);
+        $ticketId = DB::table('tickets')->insertGetId([
+            'customer_id' => $userId,
+            'category_id' => $categoryId,
+            'title' => 'Login problem',
+            'description' => 'Unable to log in.',
+            'status' => 'open',
+            'priority' => 'medium',
+            'created_at' => now(),
+            'updated_at' => now(),
+        ]);
 
-            $categoryId = DB::table('categories')->insertGetId([
-                'name' => 'Technical Issue',
-                'created_at' => now(),
-                'updated_at' => now(),
-            ]);
+        $ticket = Ticket::findOrFail($ticketId);
 
-            $ticketId = DB::table('tickets')->insertGetId([
-                'customer_id' => $userId,
-                'category_id' => $categoryId,
-                'title' => 'Login problem',
-                'description' => 'Unable to log in.',
-                'status' => 'open',
-                'priority' => 'medium',
-                'created_at' => now(),
-                'updated_at' => now(),
-            ]);
+        $this->assertSame($categoryId, $ticket->category->id);
+        $this->assertSame('Technical Issue', $ticket->category->name);
 
-            $ticket = Ticket::findOrFail($ticketId);
+        $category = Category::findOrFail($categoryId);
 
-            $this->assertSame($categoryId, $ticket->category->id);
-            $this->assertSame('Technical Issue', $ticket->category->name);
+        $this->assertCount(1, $category->tickets);
+        $this->assertSame($ticketId, $category->tickets->first()->id);
 
-            $category = Category::findOrFail($categoryId);
+        // Ticket -> Customer
+        $this->assertSame($userId, $ticket->customer->id);
 
-            $this->assertCount(1, $category->tickets);
-            $this->assertSame($ticketId, $category->tickets->first()->id);
+        // User -> Tickets
+        $user = User::findOrFail($userId);
 
-            // Ticket -> Customer
-            $this->assertSame($userId, $ticket->customer->id);
+        $this->assertCount(1, $user->tickets);
+        $this->assertSame($ticketId, $user->tickets->first()->id);
 
-            // User -> Tickets
-            $user = User::findOrFail($userId);
+        $commentId = DB::table('comments')->insertGetId([
+            'ticket_id' => $ticketId,
+            'user_id' => $userId,
+            'body' => 'I am experiencing the same issue.',
+            'created_at' => now(),
+            'updated_at' => now(),
+        ]);
 
-            $this->assertCount(1, $user->tickets);
-            $this->assertSame($ticketId, $user->tickets->first()->id);
+        $comment = Comment::findOrFail($commentId);
 
-            $commentId = DB::table('comments')->insertGetId([
-                'ticket_id' => $ticketId,
-                'user_id' => $userId,
-                'body' => 'I am experiencing the same issue.',
-                'created_at' => now(),
-                'updated_at' => now(),
-            ]);
+        // Comment -> Ticket
+        $this->assertSame($ticketId, $comment->ticket->id);
 
-            $comment = Comment::findOrFail($commentId);
+        // Comment -> User
+        $this->assertSame($userId, $comment->user->id);
 
-            // Comment -> Ticket
-            $this->assertSame($ticketId, $comment->ticket->id);
+        // Ticket -> Comments
+        $this->assertCount(1, $ticket->comments);
+        $this->assertSame($commentId, $ticket->comments->first()->id);
 
-            // Comment -> User
-            $this->assertSame($userId, $comment->user->id);
-
-            // Ticket -> Comments
-            $this->assertCount(1, $ticket->comments);
-            $this->assertSame($commentId, $ticket->comments->first()->id);
-
-            // User -> Comments
-            $this->assertCount(1, $user->comments);
-            $this->assertSame($commentId, $user->comments->first()->id);
-        } finally {
-            DB::rollBack();
-        }
+        // User -> Comments
+        $this->assertCount(1, $user->comments);
+        $this->assertSame($commentId, $user->comments->first()->id);
     }
 }

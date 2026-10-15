@@ -9,18 +9,19 @@ class DatabaseConnectionTest extends TestCase
 {
     public function test_uses_dedicated_postgresql_database(): void
     {
-        $this->assertSame(
-            'pgsql',
-            config('database.default')
-        );
+        $this->assertSame('testing', app()->environment());
+
+        $this->assertSame('pgsql', config('database.default'));
 
         $this->assertSame(
             'ticketflow_test',
             config('database.connections.pgsql.database')
         );
 
-        $this->assertSame('testing', app()->environment());
-        $this->assertSame('pgsql', config('database.default'));
+        $this->assertSame(
+            'pgsql',
+            DB::connection()->getDriverName()
+        );
 
         $this->assertSame(
             'ticketflow_test',
