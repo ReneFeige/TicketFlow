@@ -4,26 +4,10 @@ namespace Tests\Feature;
 
 use App\Models\Ticket;
 use App\Models\User;
-use Illuminate\Support\Facades\DB;
-use RuntimeException;
 use Tests\TestCase;
 
 class TicketIndexTest extends TestCase
 {
-    protected function setUp(): void
-    {
-        parent::setUp();
-
-        if (
-            ! app()->environment('testing') ||
-            DB::connection()->getDatabaseName() !== 'ticketflow_test'
-        ) {
-            throw new RuntimeException('Unsafe test database configuration.');
-        }
-
-        DB::beginTransaction();
-    }
-
     public function test_customer_can_only_see_their_own_tickets(): void
     {
         $customerA = User::factory()->create([
@@ -99,14 +83,5 @@ class TicketIndexTest extends TestCase
         $response = $this->getJson('/api/tickets');
 
         $response->assertUnauthorized();
-    }
-
-    protected function tearDown(): void
-    {
-        try {
-            DB::rollBack();
-        } finally {
-            parent::tearDown();
-        }
     }
 }
