@@ -67,4 +67,13 @@ class TicketPolicy
     {
         return false;
     }
+
+    /**
+     * Determine whether the user can comment on the ticket.
+     */
+    public function comment(User $user, Ticket $ticket): bool
+    {
+        return $ticket->status !== 'closed'
+            && $this->view($user, $ticket);
+    }
 }
