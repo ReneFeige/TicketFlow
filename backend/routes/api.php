@@ -9,3 +9,5 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 });
 
 Route::middleware('auth:sanctum')->get('/tickets', [TicketController::class, 'index']);
+
+Route::middleware('auth:sanctum')->get('/tickets/{ticket}', [TicketController::class, 'show']);
