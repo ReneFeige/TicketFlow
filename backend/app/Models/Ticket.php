@@ -11,6 +11,15 @@ class Ticket extends Model
 {
     use HasFactory;
 
+    protected $fillable = [
+        'customer_id',
+        'category_id',
+        'title',
+        'description',
+        'status',
+        'priority',
+    ];
+
     public function category(): BelongsTo
     {
         return $this->belongsTo(Category::class);
