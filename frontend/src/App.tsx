@@ -1,6 +1,7 @@
 import { useEffect, useState, type SubmitEvent } from 'react';
 import axios from 'axios';
 import { api } from './lib/api';
+import { TicketList } from './components/TicketList';
 
 type User = {
   id: number;
@@ -106,6 +107,8 @@ function App() {
           >
             {isLoading ? 'Signing out...' : 'Sign out'}
           </button>
+
+          <TicketList />
         </section>
       ) : (
         <form onSubmit={handleLogin}>
