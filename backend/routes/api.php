@@ -16,3 +16,5 @@ Route::middleware('auth:sanctum')->get('/tickets/{ticket}', [TicketController::c
 Route::middleware('auth:sanctum')->post('/tickets', [TicketController::class, 'store']);
 
 Route::middleware('auth:sanctum')->post('/tickets/{ticket}/comments', [TicketCommentController::class, 'store']);
+
+Route::middleware('auth:sanctum')->get('/tickets/{ticket}/comments', [TicketCommentController::class, 'index']);
