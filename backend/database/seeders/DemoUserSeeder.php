@@ -11,6 +11,7 @@ class DemoUserSeeder extends Seeder
     {
         $demoUsers = [
             ['name' => 'Demo Customer', 'email' => 'customer@ticketflow.demo', 'role' => 'customer'],
+            ['name' => 'Demo Customer 2', 'email' => 'customer2@ticketflow.demo', 'role' => 'customer'],
             ['name' => 'Demo Agent', 'email' => 'agent@ticketflow.demo', 'role' => 'agent'],
             ['name' => 'Demo Admin', 'email' => 'admin@ticketflow.demo', 'role' => 'admin'],
         ];
