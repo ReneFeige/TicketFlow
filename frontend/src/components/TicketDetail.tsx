@@ -81,7 +81,11 @@ export function TicketDetail() {
                     <p>Status: {ticket.status}</p>
                     <p>Priority: {ticket.priority}</p>
 
-                    <TicketComments ticketId={ticket.id} />
+                    <TicketComments
+                        key={ticket.id}
+                        ticketId={ticket.id}
+                        isClosed={ticket.status === 'closed'}
+                    />
                 </>
             )}
         </section>
