@@ -4,6 +4,7 @@ import { Link, useParams } from 'react-router';
 
 import { api } from '../lib/api';
 import type { Ticket } from '../types/ticket';
+import { TicketComments } from './TicketComments';
 
 export function TicketDetail() {
     const { ticketId } = useParams<{ ticketId: string }>();
@@ -79,6 +80,8 @@ export function TicketDetail() {
                     <p>{ticket.description}</p>
                     <p>Status: {ticket.status}</p>
                     <p>Priority: {ticket.priority}</p>
+
+                    <TicketComments ticketId={ticket.id} />
                 </>
             )}
         </section>
