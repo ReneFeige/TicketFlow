@@ -2,6 +2,8 @@ import { useEffect, useState, type SubmitEvent } from 'react';
 import axios from 'axios';
 import { api } from './lib/api';
 import { TicketList } from './components/TicketList';
+import { TicketDetail } from './components/TicketDetail';
+import { Navigate, Route, Routes } from 'react-router';
 
 type User = {
   id: number;
@@ -108,7 +110,12 @@ function App() {
             {isLoading ? 'Signing out...' : 'Sign out'}
           </button>
 
-          <TicketList />
+          <Routes>
+            <Route path="/" element={<Navigate to="/tickets" replace />} />
+            <Route path="/tickets" element={<TicketList />} />
+            <Route path="/tickets/:ticketId" element={<TicketDetail />} />
+            <Route path="*" element={<p>Page not found.</p>} />
+          </Routes>
         </section>
       ) : (
         <form onSubmit={handleLogin}>

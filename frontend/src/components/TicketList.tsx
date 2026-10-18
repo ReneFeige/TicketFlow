@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { api } from '../lib/api';
 import type { Ticket } from '../types/ticket';
+import { Link } from 'react-router';
 
 export function TicketList() {
     const [tickets, setTickets] = useState<Ticket[]>([]);
@@ -43,7 +44,9 @@ export function TicketList() {
             <ul>
                 {tickets.map((ticket) => (
                     <li key={ticket.id}>
-                        <strong>{ticket.title}</strong>
+                        <Link to={`/tickets/${ticket.id}`}>
+                            {ticket.title}
+                        </Link>
                         <span> — {ticket.status}</span>
                         <span> — {ticket.priority}</span>
                     </li>
