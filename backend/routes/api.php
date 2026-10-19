@@ -21,3 +21,5 @@ Route::middleware('auth:sanctum')->post('/tickets/{ticket}/comments', [TicketCom
 Route::middleware('auth:sanctum')->get('/tickets/{ticket}/comments', [TicketCommentController::class, 'index']);
 
 Route::middleware('auth:sanctum')->get('/categories', [CategoryController::class, 'index']);
+
+Route::middleware('auth:sanctum')->patch('/tickets/{ticket}', [TicketController::class, 'update']);

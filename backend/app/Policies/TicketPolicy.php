@@ -41,7 +41,7 @@ class TicketPolicy
      */
     public function update(User $user, Ticket $ticket): bool
     {
-        return false;
+        return in_array($user->role, ['agent', 'admin'], true);
     }
 
     /**
