@@ -119,7 +119,10 @@ function App() {
               element={<TicketList userRole={user.role} />}
             />
 
-            <Route path="/tickets/:ticketId" element={<TicketDetail />} />
+            <Route
+              path="/tickets/:ticketId"
+              element={<TicketDetail userRole={user.role} />}
+            />
 
             <Route
               path="/tickets/new"

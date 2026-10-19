@@ -5,9 +5,15 @@ import { Link, useParams } from 'react-router';
 import { api } from '../lib/api';
 import type { Ticket } from '../types/ticket';
 import { TicketComments } from '../components/TicketComments';
+import { TicketEditForm } from '../components/TicketEditForm';
 
-export function TicketDetail() {
+type TicketDetailProps = {
+    userRole: 'customer' | 'agent' | 'admin';
+};
+
+export function TicketDetail({ userRole }: TicketDetailProps) {
     const { ticketId } = useParams<{ ticketId: string }>();
+    const canEdit = userRole === 'agent' || userRole === 'admin';
 
     const [ticket, setTicket] = useState<Ticket | null>(null);
     const [isLoading, setIsLoading] = useState(true);
@@ -86,6 +92,13 @@ export function TicketDetail() {
                         ticketId={ticket.id}
                         isClosed={ticket.status === 'closed'}
                     />
+
+                    {canEdit && (
+                        <TicketEditForm
+                            ticket={ticket}
+                            onUpdated={setTicket}
+                        />
+                    )}
                 </>
             )}
         </section>
