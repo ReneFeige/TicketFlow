@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Api\CategoryController;
 use App\Http\Controllers\Api\TicketCommentController;
 use App\Http\Controllers\Api\TicketController;
 use Illuminate\Http\Request;
@@ -18,3 +19,5 @@ Route::middleware('auth:sanctum')->post('/tickets', [TicketController::class, 's
 Route::middleware('auth:sanctum')->post('/tickets/{ticket}/comments', [TicketCommentController::class, 'store']);
 
 Route::middleware('auth:sanctum')->get('/tickets/{ticket}/comments', [TicketCommentController::class, 'index']);
+
+Route::middleware('auth:sanctum')->get('/categories', [CategoryController::class, 'index']);

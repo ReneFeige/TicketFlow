@@ -4,7 +4,7 @@ import { Link, useParams } from 'react-router';
 
 import { api } from '../lib/api';
 import type { Ticket } from '../types/ticket';
-import { TicketComments } from './TicketComments';
+import { TicketComments } from '../components/TicketComments';
 
 export function TicketDetail() {
     const { ticketId } = useParams<{ ticketId: string }>();

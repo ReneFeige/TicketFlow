@@ -1,8 +1,8 @@
 import { useEffect, useState, type SubmitEvent } from 'react';
 import axios from 'axios';
 import { api } from './lib/api';
-import { TicketList } from './components/TicketList';
-import { TicketDetail } from './components/TicketDetail';
+import { TicketList } from './pages/TicketList';
+import { TicketDetail } from './pages/TicketDetail';
 import { Navigate, Route, Routes } from 'react-router';
 
 type User = {
