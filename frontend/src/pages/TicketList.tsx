@@ -3,10 +3,15 @@ import { api } from '../lib/api';
 import type { Ticket } from '../types/ticket';
 import { Link } from 'react-router';
 
-export function TicketList() {
+type TicketListProps = {
+    userRole: 'customer' | 'agent' | 'admin';
+};
+
+export function TicketList({ userRole }: TicketListProps) {
     const [tickets, setTickets] = useState<Ticket[]>([]);
     const [isLoading, setIsLoading] = useState(true);
     const [error, setError] = useState('');
+
 
     useEffect(() => {
         async function loadTickets() {
@@ -52,6 +57,10 @@ export function TicketList() {
                     </li>
                 ))}
             </ul>
+
+            {userRole === 'customer' && (
+                <Link to="/tickets/new">Create ticket</Link>
+            )}
         </section>
     );
 }

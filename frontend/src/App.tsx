@@ -4,6 +4,7 @@ import { api } from './lib/api';
 import { TicketList } from './pages/TicketList';
 import { TicketDetail } from './pages/TicketDetail';
 import { Navigate, Route, Routes } from 'react-router';
+import { TicketCreate } from './pages/TicketCreate';
 
 type User = {
   id: number;
@@ -112,8 +113,24 @@ function App() {
 
           <Routes>
             <Route path="/" element={<Navigate to="/tickets" replace />} />
-            <Route path="/tickets" element={<TicketList />} />
+
+            <Route
+              path="/tickets"
+              element={<TicketList userRole={user.role} />}
+            />
+
             <Route path="/tickets/:ticketId" element={<TicketDetail />} />
+
+            <Route
+              path="/tickets/new"
+              element={
+                user.role === 'customer' ? (
+                  <TicketCreate />
+                ) : (
+                  <Navigate to="/tickets" replace />
+                )
+              }
+            />
             <Route path="*" element={<p>Page not found.</p>} />
           </Routes>
         </section>
