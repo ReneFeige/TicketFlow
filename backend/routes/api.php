@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Api\CategoryController;
+use App\Http\Controllers\Api\DashboardController;
 use App\Http\Controllers\Api\TicketCommentController;
 use App\Http\Controllers\Api\TicketController;
 use Illuminate\Http\Request;
@@ -23,3 +24,5 @@ Route::middleware('auth:sanctum')->get('/tickets/{ticket}/comments', [TicketComm
 Route::middleware('auth:sanctum')->get('/categories', [CategoryController::class, 'index']);
 
 Route::middleware('auth:sanctum')->patch('/tickets/{ticket}', [TicketController::class, 'update']);
+
+Route::middleware('auth:sanctum')->get('/dashboard', [DashboardController::class, 'index']);
