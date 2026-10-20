@@ -19,6 +19,8 @@ class TicketCommentController extends Controller
             'body' => $request->validated('body'),
         ]);
 
+        $comment->load('user:id,name');
+
         return response()->json($comment, 201);
     }
 

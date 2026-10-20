@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreTicketRequest;
+use App\Http\Requests\UpdateTicketRequest;
 use App\Models\Ticket;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
@@ -43,6 +44,15 @@ class TicketController extends Controller
     public function show(Ticket $ticket): JsonResponse
     {
         Gate::authorize('view', $ticket);
+
+        return response()->json($ticket);
+    }
+
+    public function update(
+        UpdateTicketRequest $request,
+        Ticket $ticket
+    ): JsonResponse {
+        $ticket->update($request->validated());
 
         return response()->json($ticket);
     }

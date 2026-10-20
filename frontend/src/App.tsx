@@ -1,6 +1,10 @@
 import { useEffect, useState, type SubmitEvent } from 'react';
 import axios from 'axios';
 import { api } from './lib/api';
+import { TicketList } from './pages/TicketList';
+import { TicketDetail } from './pages/TicketDetail';
+import { Navigate, Route, Routes } from 'react-router';
+import { TicketCreate } from './pages/TicketCreate';
 
 type User = {
   id: number;
@@ -106,6 +110,32 @@ function App() {
           >
             {isLoading ? 'Signing out...' : 'Sign out'}
           </button>
+
+          <Routes>
+            <Route path="/" element={<Navigate to="/tickets" replace />} />
+
+            <Route
+              path="/tickets"
+              element={<TicketList userRole={user.role} />}
+            />
+
+            <Route
+              path="/tickets/:ticketId"
+              element={<TicketDetail userRole={user.role} />}
+            />
+
+            <Route
+              path="/tickets/new"
+              element={
+                user.role === 'customer' ? (
+                  <TicketCreate />
+                ) : (
+                  <Navigate to="/tickets" replace />
+                )
+              }
+            />
+            <Route path="*" element={<p>Page not found.</p>} />
+          </Routes>
         </section>
       ) : (
         <form onSubmit={handleLogin}>

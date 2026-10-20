@@ -25,7 +25,11 @@ class TicketCommentStoreTest extends TestCase
                 'body' => 'I have already tried resetting my password.',
             ]);
 
-        $response->assertCreated();
+        $response->assertCreated()
+            ->assertJsonPath('body', 'I have already tried resetting my password.')
+            ->assertJsonPath('user.id', $customer->id)
+            ->assertJsonPath('user.name', $customer->name)
+            ->assertJsonMissingPath('user.email');
 
         $response->assertJsonFragment([
             'ticket_id' => $ticket->id,
@@ -119,7 +123,9 @@ class TicketCommentStoreTest extends TestCase
 
         $response->assertCreated();
 
-        $response->assertJsonPath('user_id', $user->id);
+        $response->assertJsonPath('user.id', $user->id)
+            ->assertJsonPath('user.name', $user->name);
+
         $response->assertJsonPath('ticket_id', $ticket->id);
 
         $this->assertDatabaseHas('comments', [
