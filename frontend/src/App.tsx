@@ -3,7 +3,8 @@ import axios from 'axios';
 import { api } from './lib/api';
 import { TicketList } from './pages/TicketList';
 import { TicketDetail } from './pages/TicketDetail';
-import { Navigate, Route, Routes } from 'react-router';
+import { Link, Navigate, Route, Routes } from 'react-router';
+import { Dashboard } from './pages/Dashboard';
 import { TicketCreate } from './pages/TicketCreate';
 
 type User = {
@@ -111,8 +112,14 @@ function App() {
             {isLoading ? 'Signing out...' : 'Sign out'}
           </button>
 
+          <nav aria-label="Main navigation">
+            <Link to="/">Dashboard</Link>
+            {' | '}
+            <Link to="/tickets">Tickets</Link>
+          </nav>
+
           <Routes>
-            <Route path="/" element={<Navigate to="/tickets" replace />} />
+            <Route path="/" element={<Dashboard />} />
 
             <Route
               path="/tickets"
