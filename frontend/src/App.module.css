@@ -1,0 +1,263 @@
+.app {
+  min-height: 100vh;
+  background-color: var(--color-background);
+}
+
+.header {
+  background-color: var(--color-surface);
+  border-bottom: 1px solid var(--color-border);
+}
+
+.headerInner {
+  width: min(100% - 2rem, 1120px);
+  margin: 0 auto;
+
+  display: flex;
+  align-items: center;
+  gap: 2rem;
+
+  min-height: 72px;
+}
+
+.brand {
+  margin: 0;
+  font-size: 1.4rem;
+  font-weight: 700;
+  color: var(--color-text);
+}
+
+.navigation {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.navLink,
+.activeLink {
+  display: inline-flex;
+  align-items: center;
+
+  padding: 0.65rem 1rem;
+  border-radius: var(--radius-sm);
+
+  text-decoration: none;
+  font-weight: 500;
+}
+
+.navLink {
+  color: var(--color-text-muted);
+}
+
+.navLink:hover {
+  color: var(--color-primary);
+  background-color: #eff6ff;
+}
+
+.activeLink {
+  color: var(--color-primary);
+  background-color: #eff6ff;
+}
+
+.userArea {
+  margin-left: auto;
+
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.userInfo {
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+}
+
+.userName {
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: var(--color-text);
+}
+
+.userRole {
+  font-size: 0.75rem;
+  color: var(--color-text-muted);
+  text-transform: capitalize;
+}
+
+.logoutButton {
+  padding: 0.6rem 0.9rem;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+
+  background-color: var(--color-surface);
+  color: var(--color-text);
+
+  font-weight: 500;
+}
+
+.logoutButton:hover:not(:disabled) {
+  background-color: var(--color-background);
+}
+
+.logoutButton:disabled {
+  opacity: 0.6;
+}
+
+.content {
+  width: min(100% - 2rem, 1120px);
+  margin: 0 auto;
+  padding: 2rem 0;
+}
+
+.loginPage {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  padding: 2rem 1rem;
+  background-color: var(--color-background);
+}
+
+.loginContainer {
+  width: 100%;
+  max-width: 420px;
+}
+
+.loginBrand {
+  margin-bottom: 2rem;
+  text-align: center;
+}
+
+.loginBrand h1 {
+  margin: 0 0 0.75rem;
+  color: var(--color-primary);
+  font-size: 2rem;
+}
+
+.loginBrand p {
+  margin: 0;
+  color: var(--color-text-muted);
+  line-height: 1.5;
+}
+
+.loginForm {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  padding: 2rem;
+  background-color: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-card);
+}
+
+.loginForm h2 {
+  margin: 0;
+  color: var(--color-text);
+  font-size: 1.5rem;
+}
+
+.loginField {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.loginField label {
+  color: var(--color-text);
+  font-size: 0.875rem;
+  font-weight: 500;
+}
+
+.loginField input {
+  width: 100%;
+  padding: 0.75rem;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  background-color: var(--color-surface);
+  color: var(--color-text);
+}
+
+.loginButton {
+  padding: 0.75rem 1rem;
+  border: none;
+  border-radius: var(--radius-sm);
+  background-color: var(--color-primary);
+  color: #ffffff;
+  font-weight: 600;
+}
+
+.loginButton:hover:not(:disabled) {
+  background-color: var(--color-primary-hover);
+}
+
+.loginButton:disabled {
+  opacity: 0.6;
+}
+
+.loginHint {
+  margin: 1.5rem 0 0;
+  color: var(--color-text-muted);
+  font-size: 0.875rem;
+  text-align: center;
+}
+
+.loginError {
+  margin: 0;
+  padding: 0.75rem;
+  border-radius: var(--radius-sm);
+  background-color: #fef2f2;
+  color: #991b1b;
+  font-size: 0.875rem;
+}
+
+@media (max-width: 768px) {
+  .headerInner {
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    padding: 1rem 0;
+  }
+
+  .brand {
+    margin-right: auto;
+  }
+
+  .userArea {
+    margin-left: 0;
+  }
+
+  .navigation {
+    order: 3;
+    width: 100%;
+    border-top: 1px solid var(--color-border);
+    padding-top: 0.75rem;
+  }
+
+  .content {
+    padding: 1.5rem 0;
+  }
+}
+
+@media (max-width: 380px) {
+  .userInfo {
+    display: none;
+  }
+
+  .userArea {
+    margin-left: auto;
+  }
+
+  .headerInner {
+    column-gap: 0.5rem;
+  }
+
+  .logoutButton {
+    padding: 0.5rem 0.75rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .loginForm {
+    padding: 1.5rem;
+  }
+}

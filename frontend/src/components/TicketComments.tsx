@@ -2,6 +2,7 @@ import { useEffect, useState, type SubmitEvent } from 'react';
 
 import { api } from '../lib/api';
 import type { Comment } from '../types/comment';
+import styles from './TicketComments.module.css';
 
 type TicketCommentsProps = {
     ticketId: number;
@@ -93,34 +94,41 @@ export function TicketComments({ ticketId, isClosed }: TicketCommentsProps) {
             ) : comments.length === 0 ? (
                 <p>No comments yet.</p>
             ) : (
-                <ul>
+                <ul className={styles.commentList}>
                     {comments.map((comment) => (
-                        <li key={comment.id}>
-                            <strong>{comment.user.name}</strong>
-                            <p>{comment.body}</p>
+                        <li key={comment.id} className={styles.commentItem}>
+                            <strong className={styles.author}>
+                                {comment.user.name}
+                            </strong>
+                            <p className={styles.commentBody}>{comment.body}</p>
                         </li>
                     ))}
                 </ul>
             )}
 
             {!isClosed && !isLoading && !error && (
-                <form onSubmit={handleSubmit}>
+                <form onSubmit={handleSubmit} className={styles.commentForm}>
                     <h4>Add comment</h4>
 
-                    <div>
+                    <div className={styles.field}>
                         <label htmlFor="comment-body">Comment</label>
                         <textarea
                             id="comment-body"
                             value={body}
                             onChange={(event) => setBody(event.target.value)}
                             maxLength={5000}
+                            rows={4}
                             required
                         />
                     </div>
 
                     {submitError && <p role="alert">{submitError}</p>}
 
-                    <button type="submit" disabled={isSubmitting || !body.trim()}>
+                    <button
+                        type="submit"
+                        className={styles.submitButton}
+                        disabled={isSubmitting || !body.trim()}
+                    >
                         {isSubmitting ? 'Posting...' : 'Post comment'}
                     </button>
                 </form>

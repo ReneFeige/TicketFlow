@@ -1,8 +1,10 @@
 import { useEffect, useState } from 'react';
-
 import { api } from '../lib/api';
 import type { DashboardData } from '../types/dashboard';
 import { Link } from 'react-router';
+import styles from './Dashboard.module.css';
+import { PriorityBadge } from '../components/PriorityBadge/PriorityBadge';
+import { StatusBadge } from '../components/StatusBadge/StatusBadge';
 
 export function Dashboard() {
     const [data, setData] = useState<DashboardData | null>(null);
@@ -57,33 +59,67 @@ export function Dashboard() {
     }
 
     return (
-        <section>
-            <h2>Dashboard</h2>
+        <section className={styles.dashboard}>
+            <div className={styles.pageHeader}>
+                <h2>Dashboard</h2>
+                <p>Overview of your support tickets</p>
+            </div>
 
-            <p>Total tickets: {data.stats.total}</p>
-            <p>Open: {data.stats.open}</p>
-            <p>In progress: {data.stats.in_progress}</p>
-            <p>Closed: {data.stats.closed}</p>
+            <div className={styles.statsGrid}>
+                <div className={`${styles.statCard} ${styles.total}`}>
+                    <span className={styles.statLabel}>Total tickets</span>
+                    <strong className={styles.statValue}>{data.stats.total}</strong>
+                </div>
 
-            <h3>Recent tickets</h3>
+                <div className={`${styles.statCard} ${styles.open}`}>
+                    <span className={styles.statLabel}>Open</span>
+                    <strong className={styles.statValue}>{data.stats.open}</strong>
+                </div>
 
-            {data.recent_tickets.length === 0 ? (
-                <p>No recent tickets found.</p>
-            ) : (
-                <ul>
-                    {data.recent_tickets.map((ticket) => (
-                        <li key={ticket.id}>
-                            <Link to={`/tickets/${ticket.id}`}>
-                                {ticket.title}
-                            </Link>
-                            <span> — {ticket.status}</span>
-                            <span> — {ticket.priority}</span>
-                        </li>
-                    ))}
-                </ul>
-            )}
+                <div className={`${styles.statCard} ${styles.inProgress}`}>
+                    <span className={styles.statLabel}>In progress</span>
+                    <strong className={styles.statValue}>{data.stats.in_progress}</strong>
+                </div>
 
-            <Link to="/tickets">View all tickets</Link>
+                <div className={`${styles.statCard} ${styles.closed}`}>
+                    <span className={styles.statLabel}>Closed</span>
+                    <strong className={styles.statValue}>{data.stats.closed}</strong>
+                </div>
+            </div>
+
+
+            <section className={styles.recentTickets}>
+                <div className={styles.sectionHeader}>
+                    <h3>Recent tickets</h3>
+                    <Link to="/tickets" className={styles.viewAllLink}>
+                        View all tickets →
+                    </Link>
+                </div>
+
+                {data.recent_tickets.length === 0 ? (
+                    <p className={styles.emptyState}>
+                        No recent tickets found.
+                    </p>
+                ) : (
+                    <ul className={styles.ticketList}>
+                        {data.recent_tickets.map((ticket) => (
+                            <li key={ticket.id} className={styles.ticketItem}>
+                                <Link
+                                    to={`/tickets/${ticket.id}`}
+                                    className={styles.ticketTitle}
+                                >
+                                    {ticket.title}
+                                </Link>
+
+                                <div className={styles.ticketMeta}>
+                                    <StatusBadge status={ticket.status} />
+                                    <PriorityBadge priority={ticket.priority} />
+                                </div>
+                            </li>
+                        ))}
+                    </ul>
+                )}
+            </section>
         </section>
     );
 }

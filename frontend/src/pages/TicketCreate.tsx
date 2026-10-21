@@ -4,6 +4,7 @@ import { Link, useNavigate } from 'react-router';
 import { api } from '../lib/api';
 import type { Category } from '../types/category';
 import type { Ticket } from '../types/ticket';
+import styles from './TicketCreate.module.css';
 
 export function TicketCreate() {
     const [categories, setCategories] = useState<Category[]>([]);
@@ -84,9 +85,15 @@ export function TicketCreate() {
     }
 
     return (
-        <section>
-            <Link to="/tickets">Back to tickets</Link>
-            <h2>Create ticket</h2>
+        <section className={styles.ticketPage}>
+            <Link to="/tickets" className={styles.backLink}>
+                ← Back to tickets
+            </Link>
+
+            <div className={styles.pageHeader}>
+                <h2>Create ticket</h2>
+                <p>Describe your issue so our support team can help.</p>
+            </div>
 
             {isLoading ? (
                 <p>Loading categories...</p>
@@ -95,8 +102,8 @@ export function TicketCreate() {
             ) : categories.length === 0 ? (
                 <p>No categories available.</p>
             ) : (
-                <form onSubmit={handleSubmit}>
-                    <div>
+                <form onSubmit={handleSubmit} className={styles.form}>
+                    <div className={styles.field}>
                         <label htmlFor="ticket-title">Title</label>
                         <input
                             id="ticket-title"
@@ -104,21 +111,24 @@ export function TicketCreate() {
                             value={title}
                             onChange={(event) => setTitle(event.target.value)}
                             maxLength={255}
+                            placeholder="Brief summary of your issue"
                             required
                         />
                     </div>
 
-                    <div>
+                    <div className={styles.field}>
                         <label htmlFor="ticket-description">Description</label>
                         <textarea
                             id="ticket-description"
                             value={description}
                             onChange={(event) => setDescription(event.target.value)}
+                            placeholder="Describe the problem in detail..."
+                            rows={6}
                             required
                         />
                     </div>
 
-                    <div>
+                    <div className={styles.field}>
                         <label htmlFor="ticket-category">Category</label>
                         <select
                             id="ticket-category"
@@ -138,17 +148,19 @@ export function TicketCreate() {
 
                     {submitError && <p role="alert">{submitError}</p>}
 
-                    <button
-                        type="submit"
-                        disabled={
-                            isSubmitting ||
-                            !title.trim() ||
-                            !description.trim() ||
-                            !categoryId
-                        }
-                    >
-                        {isSubmitting ? 'Creating...' : 'Create ticket'}
-                    </button>
+                    <div className={styles.formActions}>
+                        <button
+                            type="submit"
+                            disabled={
+                                isSubmitting ||
+                                !title.trim() ||
+                                !description.trim() ||
+                                !categoryId
+                            }
+                        >
+                            {isSubmitting ? 'Creating...' : 'Create ticket'}
+                        </button>
+                    </div>
                 </form>
             )}
         </section>

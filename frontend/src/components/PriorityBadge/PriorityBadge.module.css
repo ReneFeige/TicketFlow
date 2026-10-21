@@ -1,0 +1,28 @@
+.badge {
+    display: inline-flex;
+    align-items: center;
+    width: fit-content;
+
+    padding: 0.3rem 0.7rem;
+    border-radius: 999px;
+
+    font-size: 0.75rem;
+    font-weight: 600;
+    line-height: 1.2;
+    white-space: nowrap;
+}
+
+.low {
+    color: var(--color-priority-low);
+    background-color: var(--color-priority-low-bg);
+}
+
+.medium {
+    color: var(--color-priority-medium);
+    background-color: var(--color-priority-medium-bg);
+}
+
+.high {
+    color: var(--color-priority-high);
+    background-color: var(--color-priority-high-bg);
+}

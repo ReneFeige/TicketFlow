@@ -1,0 +1,111 @@
+.ticketPage {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+.backLink {
+    width: fit-content;
+    color: var(--color-primary);
+    font-size: 0.875rem;
+    font-weight: 500;
+    text-decoration: none;
+}
+
+.backLink:hover {
+    text-decoration: underline;
+}
+
+.pageHeader h2 {
+    margin: 0 0 0.5rem;
+    color: var(--color-text);
+    font-size: 1.75rem;
+}
+
+.pageHeader p {
+    margin: 0;
+    color: var(--color-text-muted);
+}
+
+.form {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+
+    width: 100%;
+    max-width: 640px;
+    padding: 1.5rem;
+
+    background-color: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-card);
+}
+
+.field {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    min-width: 0;
+}
+
+.field label {
+    color: var(--color-text);
+    font-size: 0.875rem;
+    font-weight: 500;
+}
+
+.field input,
+.field textarea,
+.field select {
+    width: 100%;
+    min-width: 0;
+    padding: 0.75rem;
+
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-sm);
+    background-color: var(--color-surface);
+    color: var(--color-text);
+}
+
+.field textarea {
+    line-height: 1.5;
+    resize: vertical;
+}
+
+.field input::placeholder,
+.field textarea::placeholder {
+    color: var(--color-text-muted);
+}
+
+.formActions {
+    display: flex;
+    justify-content: flex-end;
+}
+
+.formActions button {
+    padding: 0.75rem 1rem;
+    border: none;
+    border-radius: var(--radius-sm);
+    background-color: var(--color-primary);
+    color: #ffffff;
+    font-weight: 600;
+}
+
+.formActions button:hover:not(:disabled) {
+    background-color: var(--color-primary-hover);
+}
+
+.formActions button:disabled {
+    opacity: 0.6;
+}
+
+@media (max-width: 480px) {
+    .form {
+        padding: 1rem;
+    }
+
+    .formActions button {
+        width: 100%;
+    }
+}

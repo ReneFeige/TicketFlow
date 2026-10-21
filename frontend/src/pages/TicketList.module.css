@@ -1,0 +1,120 @@
+.ticketPage {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+.pageHeader {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+}
+
+.pageHeader h2 {
+    margin: 0 0 0.5rem;
+    color: var(--color-text);
+    font-size: 1.75rem;
+}
+
+.pageHeader p {
+    margin: 0;
+    color: var(--color-text-muted);
+}
+
+.createButton {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0.75rem 1rem;
+    background-color: var(--color-primary);
+    border-radius: var(--radius-sm);
+    color: #ffffff;
+    font-weight: 600;
+    text-decoration: none;
+    white-space: nowrap;
+}
+
+.createButton:hover {
+    background-color: var(--color-primary-hover);
+    color: #ffffff;
+}
+
+.ticketCard {
+    background-color: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-card);
+    overflow: hidden;
+}
+
+.ticketList {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.ticketItem {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    padding: 1.25rem 1.5rem;
+}
+
+.ticketItem+.ticketItem {
+    border-top: 1px solid var(--color-border);
+}
+
+.ticketInfo {
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+    min-width: 0;
+}
+
+.ticketTitle {
+    color: var(--color-text);
+    font-weight: 600;
+    text-decoration: none;
+    overflow-wrap: anywhere;
+}
+
+.ticketTitle:hover {
+    color: var(--color-primary);
+    text-decoration: underline;
+}
+
+.ticketId {
+    color: var(--color-text-muted);
+    font-size: 0.75rem;
+}
+
+.ticketBadges {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    flex-shrink: 0;
+}
+
+.emptyState {
+    padding: 2rem 1.5rem;
+    color: var(--color-text-muted);
+    text-align: center;
+}
+
+@media (max-width: 600px) {
+    .pageHeader {
+        align-items: flex-start;
+        flex-direction: column;
+    }
+
+    .ticketItem {
+        align-items: flex-start;
+        flex-direction: column;
+    }
+
+    .ticketBadges {
+        flex-wrap: wrap;
+    }
+}
