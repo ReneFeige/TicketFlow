@@ -37,13 +37,6 @@
 .ticketLayout {
     display: grid;
     grid-template-columns: minmax(0, 2fr) minmax(260px, 1fr);
-    gap: 1.5rem;
-    align-items: start;
-}
-
-.ticketLayout {
-    display: grid;
-    grid-template-columns: minmax(0, 2fr) minmax(260px, 1fr);
     grid-template-areas:
         "description details"
         "comments edit";
@@ -67,15 +60,27 @@
     grid-area: edit;
 }
 
-@media (max-width: 800px) {
-    .ticketLayout {
-        grid-template-columns: minmax(0, 1fr);
-        grid-template-areas:
-            "details"
-            "description"
-            "comments"
-            "edit";
-    }
+.card {
+    padding: 1.5rem;
+    background-color: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-card);
+    min-width: 0;
+}
+
+.card h3 {
+    margin: 0 0 1.25rem;
+    color: var(--color-text);
+    font-size: 1.125rem;
+}
+
+.description {
+    margin: 0;
+    color: var(--color-text);
+    line-height: 1.6;
+    white-space: pre-wrap;
+    overflow-wrap: anywhere;
 }
 
 .metaGrid {
@@ -99,6 +104,11 @@
 
 @media (max-width: 800px) {
     .ticketLayout {
-        grid-template-columns: 1fr;
+        grid-template-columns: minmax(0, 1fr);
+        grid-template-areas:
+            "details"
+            "description"
+            "comments"
+            "edit";
     }
 }

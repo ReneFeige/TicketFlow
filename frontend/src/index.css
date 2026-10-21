@@ -32,6 +32,15 @@
 
   --color-status-closed: #166534;
   --color-status-closed-bg: #dcfce7;
+
+  --color-priority-low: #475569;
+  --color-priority-low-bg: #f1f5f9;
+
+  --color-priority-medium: #92400e;
+  --color-priority-medium-bg: #fef3c7;
+
+  --color-priority-high: #991b1b;
+  --color-priority-high-bg: #fee2e2;
 }
 
 *,
