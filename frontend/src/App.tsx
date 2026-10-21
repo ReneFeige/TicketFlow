@@ -95,8 +95,6 @@ function App() {
 
   return (
     <>
-      {error && <p role="alert">{error}</p>}
-
       {user ? (
         <div className={styles.app}>
           <header className={styles.header}>
@@ -174,35 +172,61 @@ function App() {
           </main>
         </div>
       ) : (
-        <form onSubmit={handleLogin}>
-          <h2>Sign in</h2>
+        <div className={styles.loginPage}>
+          <main className={styles.loginContainer}>
+            <div className={styles.loginBrand}>
+              <h1>TicketFlow</h1>
+              <p>A simple helpdesk ticket management system</p>
+            </div>
 
-          <div>
-            <label htmlFor="email">Email</label>
-            <input
-              id="email"
-              type="email"
-              value={email}
-              onChange={(event) => setEmail(event.target.value)}
-              required
-            />
-          </div>
+            <form onSubmit={handleLogin} className={styles.loginForm}>
+              <h2>Sign in</h2>
 
-          <div>
-            <label htmlFor="password">Password</label>
-            <input
-              id="password"
-              type="password"
-              value={password}
-              onChange={(event) => setPassword(event.target.value)}
-              required
-            />
-          </div>
+              <div className={styles.loginField}>
+                <label htmlFor="email">Email</label>
+                <input
+                  id="email"
+                  type="email"
+                  value={email}
+                  onChange={(event) => setEmail(event.target.value)}
+                  placeholder="you@example.com"
+                  autoComplete="username"
+                  required
+                />
+              </div>
 
-          <button type="submit" disabled={isLoading}>
-            {isLoading ? 'Signing in...' : 'Sign in'}
-          </button>
-        </form>
+              <div className={styles.loginField}>
+                <label htmlFor="password">Password</label>
+                <input
+                  id="password"
+                  type="password"
+                  value={password}
+                  onChange={(event) => setPassword(event.target.value)}
+                  autoComplete="current-password"
+                  required
+                />
+              </div>
+
+              {error && (
+                <p role="alert" className={styles.loginError}>
+                  {error}
+                </p>
+              )}
+
+              <button
+                type="submit"
+                className={styles.loginButton}
+                disabled={isLoading}
+              >
+                {isLoading ? 'Signing in...' : 'Sign in'}
+              </button>
+            </form>
+
+            <p className={styles.loginHint}>
+              Demo accounts will be available here.
+            </p>
+          </main>
+        </div>
       )}
     </>
   );
