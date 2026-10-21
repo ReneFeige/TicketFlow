@@ -17,20 +17,36 @@ export function TicketList({ userRole }: TicketListProps) {
 
 
     useEffect(() => {
+        const controller = new AbortController();
+
         async function loadTickets() {
+            setIsLoading(true);
+            setError('');
+
             try {
-                const response = await api.get<Ticket[]>('/api/tickets');
+                const response = await api.get<Ticket[]>(
+                    '/api/tickets',
+                    { signal: controller.signal },
+                );
 
                 setTickets(response.data);
             } catch (error) {
+                if (controller.signal.aborted) {
+                    return;
+                }
+
                 console.error('Failed to load tickets:', error);
                 setError('Could not load tickets.');
             } finally {
-                setIsLoading(false);
+                if (!controller.signal.aborted) {
+                    setIsLoading(false);
+                }
             }
         }
 
         void loadTickets();
+
+        return () => controller.abort();
     }, []);
 
     if (isLoading) {
