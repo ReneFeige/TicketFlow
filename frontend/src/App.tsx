@@ -3,7 +3,7 @@ import axios from 'axios';
 import { api } from './lib/api';
 import { TicketList } from './pages/TicketList';
 import { TicketDetail } from './pages/TicketDetail';
-import { NavLink, Navigate, Route, Routes } from 'react-router';
+import { NavLink, Navigate, Route, Routes, useNavigate } from 'react-router';
 import { Dashboard } from './pages/Dashboard';
 import { TicketCreate } from './pages/TicketCreate';
 import styles from './App.module.css';
@@ -22,6 +22,7 @@ function App() {
   const [error, setError] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [isCheckingSession, setIsCheckingSession] = useState(true);
+  const navigate = useNavigate();
 
   useEffect(() => {
     async function checkSession() {
@@ -59,6 +60,9 @@ function App() {
       const response = await api.get<User>('/api/user');
 
       setUser(response.data);
+      setPassword('');
+
+      navigate('/', { replace: true });
     } catch (error) {
       if (axios.isAxiosError(error) && error.response?.status === 422) {
         setError('Invalid email or password.');
@@ -81,6 +85,8 @@ function App() {
       setUser(null);
       setEmail('');
       setPassword('');
+
+      navigate('/', { replace: true });
     } catch (error) {
       setError('An error occurred during logout.');
       console.error(error);
