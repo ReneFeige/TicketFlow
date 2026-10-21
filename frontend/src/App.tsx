@@ -3,9 +3,10 @@ import axios from 'axios';
 import { api } from './lib/api';
 import { TicketList } from './pages/TicketList';
 import { TicketDetail } from './pages/TicketDetail';
-import { Link, Navigate, Route, Routes } from 'react-router';
+import { NavLink, Navigate, Route, Routes } from 'react-router';
 import { Dashboard } from './pages/Dashboard';
 import { TicketCreate } from './pages/TicketCreate';
+import styles from './App.module.css';
 
 type User = {
   id: number;
@@ -93,57 +94,85 @@ function App() {
   }
 
   return (
-    <main>
-      <h1>TicketFlow</h1>
-
+    <>
       {error && <p role="alert">{error}</p>}
 
       {user ? (
-        <section>
-          <h2>Welcome, {user.name}!</h2>
-          <p>Role: {user.role}</p>
-          <p>Email: {user.email}</p>
+        <div className={styles.app}>
+          <header className={styles.header}>
+            <div className={styles.headerInner}>
+              <h1 className={styles.brand}>TicketFlow</h1>
 
-          <button
-            type="button"
-            onClick={handleLogout}
-            disabled={isLoading}
-          >
-            {isLoading ? 'Signing out...' : 'Sign out'}
-          </button>
+              <nav
+                className={styles.navigation}
+                aria-label="Main navigation"
+              >
+                <NavLink
+                  to="/"
+                  end
+                  className={({ isActive }) =>
+                    isActive ? styles.activeLink : styles.navLink
+                  }
+                >
+                  Dashboard
+                </NavLink>
 
-          <nav aria-label="Main navigation">
-            <Link to="/">Dashboard</Link>
-            {' | '}
-            <Link to="/tickets">Tickets</Link>
-          </nav>
+                <NavLink
+                  to="/tickets"
+                  className={({ isActive }) =>
+                    isActive ? styles.activeLink : styles.navLink
+                  }
+                >
+                  Tickets
+                </NavLink>
+              </nav>
 
-          <Routes>
-            <Route path="/" element={<Dashboard />} />
+              <div className={styles.userArea}>
+                <div className={styles.userInfo}>
+                  <span className={styles.userName}>{user.name}</span>
+                  <span className={styles.userRole}>{user.role}</span>
+                </div>
 
-            <Route
-              path="/tickets"
-              element={<TicketList userRole={user.role} />}
-            />
+                <button
+                  className={styles.logoutButton}
+                  type="button"
+                  onClick={handleLogout}
+                  disabled={isLoading}
+                >
+                  {isLoading ? 'Signing out...' : 'Sign out'}
+                </button>
+              </div>
+            </div>
+          </header>
 
-            <Route
-              path="/tickets/:ticketId"
-              element={<TicketDetail userRole={user.role} />}
-            />
+          <main className={styles.content}>
+            <Routes>
+              <Route path="/" element={<Dashboard />} />
 
-            <Route
-              path="/tickets/new"
-              element={
-                user.role === 'customer' ? (
-                  <TicketCreate />
-                ) : (
-                  <Navigate to="/tickets" replace />
-                )
-              }
-            />
-            <Route path="*" element={<p>Page not found.</p>} />
-          </Routes>
-        </section>
+              <Route
+                path="/tickets"
+                element={<TicketList userRole={user.role} />}
+              />
+
+              <Route
+                path="/tickets/:ticketId"
+                element={<TicketDetail userRole={user.role} />}
+              />
+
+              <Route
+                path="/tickets/new"
+                element={
+                  user.role === 'customer' ? (
+                    <TicketCreate />
+                  ) : (
+                    <Navigate to="/tickets" replace />
+                  )
+                }
+              />
+              <Route path="*" element={<p>Page not found.</p>} />
+            </Routes>
+          </main>
+        </div>
       ) : (
         <form onSubmit={handleLogin}>
           <h2>Sign in</h2>
@@ -175,7 +204,7 @@ function App() {
           </button>
         </form>
       )}
-    </main>
+    </>
   );
 }
 

@@ -1,3 +1,5 @@
+import type { TicketPriority, TicketStatus } from "./ticket";
+
 export type DashboardData = {
     stats: {
         total: number;
@@ -8,8 +10,8 @@ export type DashboardData = {
     recent_tickets: {
         id: number;
         title: string;
-        status: 'open' | 'in_progress' | 'closed';
-        priority: 'low' | 'medium' | 'high';
+        status: TicketStatus;
+        priority: TicketPriority;
         created_at: string;
     }[];
 };

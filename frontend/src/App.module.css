@@ -1,0 +1,155 @@
+.app {
+  min-height: 100vh;
+  background-color: var(--color-background);
+}
+
+.header {
+  background-color: var(--color-surface);
+  border-bottom: 1px solid var(--color-border);
+}
+
+.headerInner {
+  width: min(100% - 2rem, 1120px);
+  margin: 0 auto;
+
+  display: flex;
+  align-items: center;
+  gap: 2rem;
+
+  min-height: 72px;
+}
+
+.brand {
+  margin: 0;
+  font-size: 1.4rem;
+  font-weight: 700;
+  color: var(--color-text);
+}
+
+.navigation {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.navLink,
+.activeLink {
+  display: inline-flex;
+  align-items: center;
+
+  padding: 0.65rem 1rem;
+  border-radius: var(--radius-sm);
+
+  text-decoration: none;
+  font-weight: 500;
+}
+
+.navLink {
+  color: var(--color-text-muted);
+}
+
+.navLink:hover {
+  color: var(--color-primary);
+  background-color: #eff6ff;
+}
+
+.activeLink {
+  color: var(--color-primary);
+  background-color: #eff6ff;
+}
+
+.userArea {
+  margin-left: auto;
+
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.userInfo {
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+}
+
+.userName {
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: var(--color-text);
+}
+
+.userRole {
+  font-size: 0.75rem;
+  color: var(--color-text-muted);
+  text-transform: capitalize;
+}
+
+.logoutButton {
+  padding: 0.6rem 0.9rem;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+
+  background-color: var(--color-surface);
+  color: var(--color-text);
+
+  font-weight: 500;
+}
+
+.logoutButton:hover:not(:disabled) {
+  background-color: var(--color-background);
+}
+
+.logoutButton:disabled {
+  opacity: 0.6;
+}
+
+.content {
+  width: min(100% - 2rem, 1120px);
+  margin: 0 auto;
+  padding: 2rem 0;
+}
+
+@media (max-width: 768px) {
+  .headerInner {
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    padding: 1rem 0;
+  }
+
+  .brand {
+    margin-right: auto;
+  }
+
+  .userArea {
+    margin-left: 0;
+  }
+
+  .navigation {
+    order: 3;
+    width: 100%;
+    border-top: 1px solid var(--color-border);
+    padding-top: 0.75rem;
+  }
+
+  .content {
+    padding: 1.5rem 0;
+  }
+
+  @media (max-width: 380px) {
+    .userInfo {
+      display: none;
+    }
+
+    .userArea {
+      margin-left: auto;
+    }
+
+    .headerInner {
+      column-gap: 0.5rem;
+    }
+
+    .logoutButton {
+      padding: 0.5rem 0.75rem;
+    }
+  }
+}
