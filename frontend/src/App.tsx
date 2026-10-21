@@ -25,22 +25,35 @@ function App() {
   const navigate = useNavigate();
 
   useEffect(() => {
+    const controller = new AbortController();
+
     async function checkSession() {
       try {
-        const response = await api.get<User>('/api/user');
+        const response = await api.get<User>(
+          '/api/user',
+          { signal: controller.signal },
+        );
 
         setUser(response.data);
         setPassword('');
       } catch (error) {
+        if (controller.signal.aborted) {
+          return;
+        }
+
         if (!axios.isAxiosError(error) || error.response?.status !== 401) {
           console.error('Failed to check session:', error);
         }
       } finally {
-        setIsCheckingSession(false);
+        if (!controller.signal.aborted) {
+          setIsCheckingSession(false);
+        }
       }
     }
 
     void checkSession();
+
+    return () => controller.abort();
   }, []);
 
   async function handleLogin(event: SubmitEvent<HTMLFormElement>) {
