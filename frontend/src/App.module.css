@@ -195,13 +195,6 @@
   opacity: 0.6;
 }
 
-.loginHint {
-  margin: 1.5rem 0 0;
-  color: var(--color-text-muted);
-  font-size: 0.875rem;
-  text-align: center;
-}
-
 .loginError {
   margin: 0;
   padding: 0.75rem;
@@ -209,6 +202,72 @@
   background-color: #fef2f2;
   color: #991b1b;
   font-size: 0.875rem;
+}
+
+.demoSection {
+  margin-top: 1.5rem;
+}
+
+.demoSection h2 {
+  margin: 0 0 0.5rem;
+  color: var(--color-text);
+  font-size: 1.125rem;
+}
+
+.demoDescription {
+  margin: 0 0 1rem;
+  color: var(--color-text-muted);
+  font-size: 0.875rem;
+}
+
+.demoGrid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.75rem;
+}
+
+.demoButton {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.375rem;
+
+  min-width: 0;
+  padding: 1rem;
+
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  background-color: var(--color-surface);
+
+  text-align: left;
+}
+
+.demoButton:hover:not(:disabled) {
+  border-color: var(--color-primary);
+  background-color: #eff6ff;
+}
+
+.demoButton:disabled {
+  opacity: 0.6;
+}
+
+.demoButtonLabel {
+  color: var(--color-text);
+  font-size: 0.875rem;
+  font-weight: 600;
+}
+
+.demoButtonDescription {
+  color: var(--color-text-muted);
+  font-size: 0.75rem;
+  line-height: 1.4;
+}
+
+.demoNotice {
+  margin: 1rem 0 0;
+  color: var(--color-text-muted);
+  font-size: 0.75rem;
+  line-height: 1.5;
 }
 
 @media (max-width: 768px) {
@@ -259,5 +318,9 @@
 @media (max-width: 480px) {
   .loginForm {
     padding: 1.5rem;
+  }
+
+  .demoGrid {
+    grid-template-columns: 1fr;
   }
 }
