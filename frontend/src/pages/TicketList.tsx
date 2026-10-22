@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { api } from '../lib/api';
 import type { Ticket } from '../types/ticket';
-import { Link } from 'react-router';
+import { Link, useSearchParams } from 'react-router';
 import styles from './TicketList.module.css';
 import { PriorityBadge } from '../components/PriorityBadge/PriorityBadge';
 import { StatusBadge } from '../components/StatusBadge/StatusBadge';
@@ -14,7 +14,12 @@ export function TicketList({ userRole }: TicketListProps) {
     const [tickets, setTickets] = useState<Ticket[]>([]);
     const [isLoading, setIsLoading] = useState(true);
     const [error, setError] = useState('');
+    const [hasLoaded, setHasLoaded] = useState(false);
+    const [searchParams, setSearchParams] = useSearchParams();
 
+    const sort = searchParams.get('sort') === 'priority'
+        ? 'priority'
+        : 'newest';
 
     useEffect(() => {
         const controller = new AbortController();
@@ -26,10 +31,14 @@ export function TicketList({ userRole }: TicketListProps) {
             try {
                 const response = await api.get<Ticket[]>(
                     '/api/tickets',
-                    { signal: controller.signal },
+                    {
+                        params: { sort },
+                        signal: controller.signal,
+                    },
                 );
 
                 setTickets(response.data);
+                setHasLoaded(true);
             } catch (error) {
                 if (controller.signal.aborted) {
                     return;
@@ -47,15 +56,7 @@ export function TicketList({ userRole }: TicketListProps) {
         void loadTickets();
 
         return () => controller.abort();
-    }, []);
-
-    if (isLoading) {
-        return <p>Loading tickets...</p>;
-    }
-
-    if (error) {
-        return <p role="alert">{error}</p>;
-    }
+    }, [sort]);
 
     return (
         <section className={styles.ticketPage}>
@@ -72,8 +73,40 @@ export function TicketList({ userRole }: TicketListProps) {
                 )}
             </div>
 
-            <div className={styles.ticketCard}>
-                {tickets.length === 0 ? (
+            <div className={styles.sortBar}>
+                <label htmlFor="ticket-sort">
+                    Sort by
+                </label>
+
+                <select
+                    id="ticket-sort"
+                    value={sort}
+                    disabled={isLoading}
+                    onChange={(event) => {
+                        const selectedSort = event.target.value;
+
+                        setSearchParams(
+                            selectedSort === 'priority'
+                                ? { sort: 'priority' }
+                                : {},
+                        );
+                    }}
+                >
+                    <option value="newest">Newest first</option>
+                    <option value="priority">Priority: High to Low</option>
+                </select>
+            </div>
+
+            <div className={styles.loadingStatus} role="status">
+                {isLoading && hasLoaded ? 'Updating tickets...' : ''}
+            </div>
+
+            <div className={styles.ticketCard} aria-busy={isLoading}>
+                {!hasLoaded && isLoading ? (
+                    <p>Loading tickets...</p>
+                ) : error ? (
+                    <p role="alert">{error}</p>
+                ) : tickets.length === 0 ? (
                     <p className={styles.emptyState}>
                         No tickets found.
                     </p>

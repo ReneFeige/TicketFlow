@@ -9,6 +9,7 @@ use App\Models\Ticket;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
+use Illuminate\Validation\Rule;
 
 class TicketController extends Controller
 {
@@ -28,6 +29,12 @@ class TicketController extends Controller
     {
         Gate::authorize('viewAny', Ticket::class);
 
+        $validated = $request->validate([
+            'sort' => ['sometimes', 'string', Rule::in(['newest', 'priority'])],
+        ]);
+
+        $sort = $validated['sort'] ?? 'newest';
+
         $user = $request->user();
 
         $query = Ticket::query();
@@ -36,7 +43,21 @@ class TicketController extends Controller
             $query->where('customer_id', $user->id);
         }
 
-        $tickets = $query->get();
+        if ($sort === 'priority') {
+            $query->orderByRaw("
+            CASE priority
+                WHEN 'high' THEN 1
+                WHEN 'medium' THEN 2
+                WHEN 'low' THEN 3
+                ELSE 4
+            END
+        ");
+        }
+
+        $tickets = $query
+            ->orderByDesc('created_at')
+            ->orderByDesc('id')
+            ->get();
 
         return response()->json($tickets);
     }
