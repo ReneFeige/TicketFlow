@@ -6,6 +6,7 @@ import { TicketDetail } from './pages/TicketDetail';
 import { NavLink, Navigate, Route, Routes, useNavigate } from 'react-router';
 import { Dashboard } from './pages/Dashboard';
 import { TicketCreate } from './pages/TicketCreate';
+import { demoAccounts, DEMO_PASSWORD } from './config/demoAccounts';
 import styles from './App.module.css';
 
 type User = {
@@ -59,6 +60,14 @@ function App() {
   async function handleLogin(event: SubmitEvent<HTMLFormElement>) {
     event.preventDefault();
 
+    await login(email, password);
+  }
+
+  async function login(loginEmail: string, loginPassword: string) {
+    if (isLoading) {
+      return;
+    }
+
     setError('');
     setIsLoading(true);
 
@@ -66,13 +75,14 @@ function App() {
       await api.get('/sanctum/csrf-cookie');
 
       await api.post('/login', {
-        email,
-        password,
+        email: loginEmail,
+        password: loginPassword,
       });
 
       const response = await api.get<User>('/api/user');
 
       setUser(response.data);
+      setEmail('');
       setPassword('');
 
       navigate('/', { replace: true });
@@ -241,9 +251,38 @@ function App() {
               </button>
             </form>
 
-            <p className={styles.loginHint}>
-              Demo accounts will be available here.
-            </p>
+            <section className={styles.demoSection}>
+              <h2>Try a demo account</h2>
+
+              <p className={styles.demoDescription}>
+                Select a role to explore TicketFlow.
+              </p>
+
+              <div className={styles.demoGrid}>
+                {demoAccounts.map((account) => (
+                  <button
+                    key={account.email}
+                    type="button"
+                    className={styles.demoButton}
+                    onClick={() => void login(account.email, DEMO_PASSWORD)}
+                    disabled={isLoading}
+                  >
+                    <span className={styles.demoButtonLabel}>
+                      {account.label}
+                    </span>
+
+                    <span className={styles.demoButtonDescription}>
+                      {account.description}
+                    </span>
+                  </button>
+                ))}
+              </div>
+
+              <p className={styles.demoNotice}>
+                Public demo with shared, fictional data. Changes may be reset.
+                Please do not enter personal information.
+              </p>
+            </section>
           </main>
         </div>
       )}
