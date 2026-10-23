@@ -16,6 +16,20 @@ Technische Schwerpunkte sind die Entwicklung einer REST-API mit Laravel, ein Rea
 
 *Die technische Dokumentation ist auf Englisch verfasst.*
 
+## Screenshots
+
+### Dashboard
+
+![TicketFlow dashboard](docs/screenshots/dashboard.png)
+
+### Ticket Overview
+
+![Ticket overview with statuses and priorities](docs/screenshots/tickets.png)
+
+### Ticket Details
+
+![Ticket details with comments and management controls](docs/screenshots/ticket-details.png)
+
 ## Features
 
 ### Authentication and Authorization
